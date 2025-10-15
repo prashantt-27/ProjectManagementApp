@@ -47,9 +47,11 @@ const Navbar = () => {
       <div className="buttons">
         {currentUser ? (
           <div className="flex items-center space-x-4">
-            <span className="font-medium text-sm">
-              👋 {currentUser.username}
-            </span>
+            {currentUser && (
+              <span className="font-medium text-sm">
+                👋 {currentUser.username}
+              </span>
+            )}
             <button
               onClick={handleLogout}
               className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow"
