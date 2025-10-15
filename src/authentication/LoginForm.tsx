@@ -78,13 +78,12 @@ const LoginForm = () => {
 
           <p className="text-center text-gray-500 mt-6">
             Don't have an account?{" "}
-            <a
-              href="/sign"
+            <Link
+              to="/sign"
               className="text-purple-600 font-semibold hover:underline"
-              onClick={() => navigate("/sign")}
             >
               Sign Up
-            </a>
+            </Link>
           </p>
         </div>
       </div>

@@ -13,7 +13,7 @@ const Hero = () => {
             Track progress, prioritize tasks, and streamline your workflow with
             ease
           </p>
-          <button className="bg-white rounded-lg px-6 py-3 text-purple-600 font-semibold hover:bg-gray-100 transition">
+          <button className="bg-white rounded-lg px-6 py-2 text-purple-600 font-semibold hover:bg-gray-100 transition">
             Explore Now
           </button>
         </div>

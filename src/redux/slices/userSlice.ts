@@ -15,7 +15,7 @@ interface UserState {
 
 const initialState: UserState = {
   users: JSON.parse(localStorage.getItem("register") || "[]"),
-  currentUser: JSON.parse(localStorage.getItem("currentUser") || "[]"),
+  currentUser: JSON.parse(localStorage.getItem("currentUser") || "null"),
 };
 
 export const userSlice = createSlice({
@@ -36,9 +36,8 @@ export const userSlice = createSlice({
       );
       if (loginUser) {
         state.currentUser = loginUser;
-        toast.success("Login Successfully!!");
-      } else {
-        toast.error("Incorrect Email or Password");
+        toast.success("Login Successfully...");
+        localStorage.setItem("currentUser", JSON.stringify(loginUser));
         return;
       }
       console.log(loginUser);
@@ -46,7 +45,7 @@ export const userSlice = createSlice({
 
     logout(state) {
       state.currentUser = null;
-      localStorage.getItem("currentUser");
+      localStorage.removeItem("currentUser");
       toast("Logged out successfully!", { icon: "👋" });
     },
   },

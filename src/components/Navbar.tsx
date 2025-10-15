@@ -18,7 +18,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex justify-between items-center px-6 py-3 bg-purple-800 text-white sticky top-0">
+    <nav className="flex justify-between items-center px-6 py-3 bg-purple-800 text-white shadow-lg sticky top-0 z-50">
       <div>
         <h2
           className="text-xl font-semibold cursor-pointer"
@@ -62,7 +62,7 @@ const Navbar = () => {
         ) : (
           <Link to="/login">
             <button className="bg-purple-100 text-purple-600 hover:bg-purple-200 px-4 py-2 rounded-lg">
-              Login | SignUp
+              Login
             </button>
           </Link>
         )}
