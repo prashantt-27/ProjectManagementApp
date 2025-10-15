@@ -19,7 +19,6 @@ const Navbar = () => {
 
   return (
     <nav className="flex justify-between items-center px-6 py-3 bg-purple-800 text-white sticky top-0">
-      {/* Left Section */}
       <div>
         <h2
           className="text-xl font-semibold cursor-pointer"
@@ -45,7 +44,6 @@ const Navbar = () => {
         <li className="hover:text-gray-200 cursor-pointer">Contact</li>
       </ul>
 
-      {/* Right Section (Buttons) */}
       <div className="buttons">
         {currentUser ? (
           <div className="flex items-center space-x-4">

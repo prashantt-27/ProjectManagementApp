@@ -6,6 +6,8 @@ import LoginForm from "./authentication/LoginForm";
 import SignIn from "./authentication/SignIn";
 import ProjectPage from "./components/ProjectPage";
 import { Toaster } from "react-hot-toast";
+import { useLocation } from "react-router-dom";
+import About from "./components/About";
 
 const App = () => {
   return (

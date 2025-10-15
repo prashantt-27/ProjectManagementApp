@@ -1,4 +1,5 @@
 import React from "react";
+import About from "./About";
 
 const Hero = () => {
   return (
@@ -25,6 +26,7 @@ const Hero = () => {
           />
         </div>
       </section>
+      <About />
     </>
   );
 };
