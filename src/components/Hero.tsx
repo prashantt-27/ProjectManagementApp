@@ -1,5 +1,4 @@
-import React from "react";
-import About from "./About";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -20,7 +19,6 @@ const Hero = () => {
             <div className="text-white space-y-6 sm:space-y-8 z-10 order-2 lg:order-1">
               {/* Badge */}
               <div className="inline-flex items-center bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-medium">
-                <span className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
                 New: AI-Powered Task Prioritization
               </div>
 
@@ -146,7 +144,7 @@ const Hero = () => {
                 </div>
 
                 {/* Main Image */}
-                <div className="relative bg-white/10 backdrop-sm rounded-3xl p-4 sm:p-8 border border-white/20">
+                <div className="relative bg-white/10 backdrop-sm rounded-3xl p-4 sm:p-8 m-10 border border-white/20">
                   <img
                     src="https://static.vecteezy.com/system/resources/previews/021/436/050/original/project-management-strategic-plan-to-manage-resources-for-development-working-process-and-schedule-task-completion-concept-smart-businessman-project-manager-manage-multiple-project-dashboards-vector.jpg"
                     alt="Project Management Dashboard"

@@ -1,5 +1,3 @@
-import CompleteLandingPage from "./CompleteLandingPage";
-
 const About = () => {
   const features = [
     {

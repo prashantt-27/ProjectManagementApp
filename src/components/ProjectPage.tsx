@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+
 import {
   addProject,
   setActiveIndex,
@@ -13,7 +13,6 @@ import type { RootState } from "../redux/store";
 import toast from "react-hot-toast";
 
 const ProjectPage = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { projectList, activeIndex } = useSelector(
     (state: RootState) => state.project
@@ -33,7 +32,6 @@ const ProjectPage = () => {
   const handleAddProject = () => {
     if (!currentUser) {
       toast.error("Please log in first!");
-      navigate("/login");
       return;
     }
     if (newProject.trim() === "") return;

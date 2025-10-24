@@ -1,4 +1,5 @@
-import React, { type ElementType, type JSX } from "react";
+import { useState, type JSX } from "react";
+
 import Navbar from "./components/Navbar";
 import {
   BrowserRouter as Router,
@@ -6,15 +7,21 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Hero from "./components/Hero";
-import LoginForm from "./authentication/LoginForm";
-import SignIn from "./authentication/SignIn";
-import ProjectPage from "./components/ProjectPage";
-import About from "./components/About";
-import CompleteLandingPage from "./components/CompleteLandingPage";
 import { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import type { RootState } from "./redux/store";
+import { lazy } from "react";
+import Preloader from "./components/Preloader";
+import Footer from "./components/Footer";
+
+const Hero = lazy(() => import("./components/Hero"));
+const LoginForm = lazy(() => import("./authentication/LoginForm"));
+const SignIn = lazy(() => import("./authentication/SignIn"));
+const ProjectPage = lazy(() => import("./components/ProjectPage"));
+const About = lazy(() => import("./components/About"));
+const CompleteLandingPage = lazy(
+  () => import("./components/CompleteLandingPage")
+);
 
 // Landing Page Component
 const LandingPage = () => {
@@ -23,6 +30,7 @@ const LandingPage = () => {
       <Hero />
       <About />
       <CompleteLandingPage />
+      <Footer />
     </div>
   );
 };
@@ -34,41 +42,49 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
 };
 
 const App = () => {
-  return (
-    <div className="font-sans bg-gray-50 text-gray-800">
-      <Toaster position="top-center" reverseOrder={false} />
-      <Router>
-        <Navbar />
+  const [loading, setLoading] = useState(true);
 
-        <Routes>
-          {/* Landing page route */}
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/sign" element={<SignIn />} />
-          <Route path="/price" element={<CompleteLandingPage />}></Route>
-          <Route
-            path="/project"
-            element={
-              <PrivateRoute>
-                <ProjectPage />
-              </PrivateRoute>
-            }
-          />
-          <Route path="/about" element={<About />} />
-          {/* Contact page protected */}
-          <Route
-            path="/contact"
-            element={
-              <PrivateRoute>
-                <CompleteLandingPage />
-              </PrivateRoute>
-            }
-          />
-          {/* Fallback route */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Router>
-    </div>
+  return (
+    <>
+      {loading ? (
+        <Preloader onFinish={() => setLoading(false)} />
+      ) : (
+        <div className="font-sans bg-gray-50 text-gray-800">
+          <Toaster position="top-center" reverseOrder={false} />
+          <Router>
+            <Navbar />
+
+            <Routes>
+              {/* Landing page route */}
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/login" element={<LoginForm />} />
+              <Route path="/sign" element={<SignIn />} />
+              <Route path="/price" element={<CompleteLandingPage />}></Route>
+              <Route
+                path="/project"
+                element={
+                  <PrivateRoute>
+                    <ProjectPage />
+                  </PrivateRoute>
+                }
+              />
+              <Route path="/about" element={<About />} />
+              {/* Contact page protected */}
+              <Route
+                path="/contact"
+                element={
+                  <PrivateRoute>
+                    <CompleteLandingPage />
+                  </PrivateRoute>
+                }
+              />
+              {/* Fallback route */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Router>
+        </div>
+      )}
+    </>
   );
 };
 

@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../redux/store";
 import { logout } from "../redux/slices/userSlice";
+import logo from "../assets/logo.jpg";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -33,37 +33,22 @@ const Navbar = () => {
   const navLinks = [
     { name: "Home", path: "/", id: "home" },
     { name: "About", path: "/about", id: "about" },
-    { name: "Projects", path: "/project", id: "projects" },
     { name: "Pricing & Review", path: "/price", id: "price" },
-    { name: "Contact", path: "/contact", id: "contact" },
+    { name: "Projects", path: "/project", id: "projects" },
   ];
 
   return (
     <>
-      {/* Glassmorphism Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 md:h-20">
-            {/* Logo with gradient */}
             <div
               className="flex items-center space-x-2 cursor-pointer group"
               onClick={() => handleNavClick("/", "home")}
             >
               <div className="relative">
                 <div className="w-10 h-10 bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
-                  <svg
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 10V3L4 14h7v7l9-11h-7z"
-                    />
-                  </svg>
+                  <img src={logo} alt="logo" />
                 </div>
                 <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
               </div>
