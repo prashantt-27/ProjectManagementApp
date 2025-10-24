@@ -76,7 +76,7 @@ const projectSlice = createSlice({
     toggleTask: (
       state,
       action: PayloadAction<{
-        email: string;
+        email: string | undefined;
         projectIndex: number;
         taskIndex: number;
       }>
@@ -93,7 +93,7 @@ const projectSlice = createSlice({
     deleteTask: (
       state,
       action: PayloadAction<{
-        email: string;
+        email: string | undefined;
         projectIndex: number;
         taskIndex: number;
       }>
@@ -109,7 +109,7 @@ const projectSlice = createSlice({
     editTask: (
       state,
       action: PayloadAction<{
-        email: string;
+        email: string | null | undefined;
         projectIndex: number;
         taskIndex: number;
         newTask: string;
