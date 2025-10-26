@@ -1,12 +1,23 @@
 import { motion } from "framer-motion";
+import { useTheme } from "../context/ThemeContext";
 
 const Hero = () => {
+  const { darkMode } = useTheme();
+
   return (
-    <section className="relative bg-gradient-to-br from-purple-600 via-purple-500 to-indigo-600 overflow-hidden">
+    <section
+      className={`relative overflow-hidden ${
+        darkMode
+          ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 text-gray-200"
+          : "bg-gradient-to-br from-purple-600 via-purple-500 to-indigo-600 text-white"
+      }`}
+    >
       {/* Animated Background Blobs */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
-          className="absolute -top-40 -right-40 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70"
+          className={`absolute -top-40 -right-40 w-80 h-80 rounded-full mix-blend-multiply filter blur-xl opacity-70 ${
+            darkMode ? "bg-gray-700" : "bg-purple-300"
+          }`}
           animate={{
             x: [0, 30, -20, 0],
             y: [0, -50, 20, 0],
@@ -15,7 +26,9 @@ const Hero = () => {
           transition={{ duration: 7, repeat: Infinity }}
         />
         <motion.div
-          className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-70"
+          className={`absolute -bottom-40 -left-40 w-80 h-80 rounded-full mix-blend-multiply filter blur-xl opacity-70 ${
+            darkMode ? "bg-gray-600" : "bg-indigo-300"
+          }`}
           animate={{
             x: [0, -40, 20, 0],
             y: [0, 30, -20, 0],
@@ -24,7 +37,9 @@ const Hero = () => {
           transition={{ duration: 7, repeat: Infinity, delay: 2 }}
         />
         <motion.div
-          className="absolute top-40 left-1/2 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70"
+          className={`absolute top-40 left-1/2 w-80 h-80 rounded-full mix-blend-multiply filter blur-xl opacity-70 ${
+            darkMode ? "bg-gray-500" : "bg-pink-300"
+          }`}
           animate={{
             x: [0, 20, -10, 0],
             y: [0, -30, 10, 0],
@@ -35,8 +50,8 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-24 grid lg:grid-cols-2 gap-10 items-center text-white">
-        {/* ✅ Right Image (Now appears first on mobile) */}
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-24 grid lg:grid-cols-2 gap-10 items-center">
+        {/* Right Image */}
         <motion.div
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -48,12 +63,20 @@ const Hero = () => {
           <motion.div
             animate={{ y: [0, -15, 0] }}
             transition={{ duration: 3, repeat: Infinity }}
-            className="absolute -top-4 -left-4 bg-white rounded-2xl shadow-2xl p-4 hidden sm:block"
+            className={`absolute -top-4 -left-4 rounded-2xl p-4 hidden sm:block shadow-2xl ${
+              darkMode ? "bg-gray-800" : "bg-white"
+            }`}
           >
             <div className="flex items-center space-x-3">
-              <div className="bg-green-100 rounded-full p-2">
+              <div
+                className={`rounded-full p-2 ${
+                  darkMode ? "bg-green-800" : "bg-green-100"
+                }`}
+              >
                 <svg
-                  className="w-6 h-6 text-green-600"
+                  className={`w-6 h-6 ${
+                    darkMode ? "text-green-400" : "text-green-600"
+                  }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -67,10 +90,18 @@ const Hero = () => {
                 </svg>
               </div>
               <div>
-                <div className="text-sm font-bold text-gray-800">
+                <div
+                  className={`text-sm font-bold z-40 ${
+                    darkMode ? "text-gray-200" : "text-gray-800"
+                  }`}
+                >
                   Task Completed!
                 </div>
-                <div className="text-xs text-gray-500">
+                <div
+                  className={`text-xs z-40 ${
+                    darkMode ? "text-gray-400" : "text-gray-500"
+                  }`}
+                >
                   Great progress today
                 </div>
               </div>
@@ -80,12 +111,20 @@ const Hero = () => {
           <motion.div
             animate={{ y: [0, 15, 0] }}
             transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
-            className="absolute -bottom-4 -right-4 bg-white rounded-2xl shadow-2xl p-4 hidden sm:block"
+            className={`absolute -bottom-4 -right-4 rounded-2xl p-4 hidden sm:block shadow-2xl ${
+              darkMode ? "bg-gray-800" : "bg-white"
+            }`}
           >
             <div className="flex items-center space-x-3">
-              <div className="bg-purple-100 rounded-full p-2">
+              <div
+                className={`rounded-full p-2 ${
+                  darkMode ? "bg-purple-700" : "bg-purple-100"
+                }`}
+              >
                 <svg
-                  className="w-6 h-6 text-purple-600"
+                  className={`w-6 h-6 ${
+                    darkMode ? "text-purple-300" : "text-purple-600"
+                  }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -99,10 +138,20 @@ const Hero = () => {
                 </svg>
               </div>
               <div>
-                <div className="text-sm font-bold text-gray-800">
+                <div
+                  className={`text-sm font-bold ${
+                    darkMode ? "text-gray-200" : "text-gray-800"
+                  }`}
+                >
                   Team Updated
                 </div>
-                <div className="text-xs text-gray-500">5 new changes</div>
+                <div
+                  className={`text-xs ${
+                    darkMode ? "text-gray-400" : "text-gray-500"
+                  }`}
+                >
+                  5 new changes
+                </div>
               </div>
             </div>
           </motion.div>
@@ -114,24 +163,30 @@ const Hero = () => {
             whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{ duration: 1, delay: 0.3 }}
             viewport={{ once: true }}
-            className="bg-white/10 backdrop-sm rounded-3xl p-4 sm:p-8 border border-white/20"
+            className={`rounded-3xl p-4 sm:p-8 border shadow-2xl ${
+              darkMode
+                ? "bg-gray-800 border-gray-600"
+                : "bg-white/10 border-white/20"
+            }`}
           >
             <img
               src="https://static.vecteezy.com/system/resources/previews/021/436/050/original/project-management-strategic-plan-to-manage-resources-for-development-working-process-and-schedule-task-completion-concept-smart-businessman-project-manager-manage-multiple-project-dashboards-vector.jpg"
               alt="Project Management Dashboard"
-              className="w-full rounded-2xl shadow-2xl z-30"
+              className="w-full rounded-2xl shadow-2xl z-0"
             />
           </motion.div>
         </motion.div>
 
-        {/* ✅ Left Text (Now appears second on mobile) */}
+        {/* Left Text */}
         <div className="space-y-6 order-2 lg:order-1">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="inline-flex items-center bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-medium"
+            className={`inline-flex items-center rounded-full px-4 py-2 text-sm font-medium backdrop-blur-sm ${
+              darkMode ? "bg-gray-700/30" : "bg-white/20"
+            }`}
           >
             🚀 New: AI-Powered Task Prioritization
           </motion.div>
@@ -154,7 +209,11 @@ const Hero = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-lg sm:text-xl text-purple-100 max-w-xl"
+            className={
+              darkMode
+                ? "text-gray-300 text-lg sm:text-xl max-w-xl"
+                : "text-purple-100 text-lg sm:text-xl max-w-xl"
+            }
           >
             Track progress, prioritize tasks, and streamline your workflow with
             our intuitive project management platform.
@@ -167,7 +226,13 @@ const Hero = () => {
             viewport={{ once: true }}
             className="flex flex-col sm:flex-row gap-4 pt-4"
           >
-            <button className="group bg-white text-purple-600 px-8 py-4 rounded-xl font-bold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center">
+            <button
+              className={`group px-8 py-4 rounded-xl font-bold text-lg shadow-xl flex items-center justify-center transform transition-all duration-300 ${
+                darkMode
+                  ? "bg-gray-200 text-gray-900 hover:scale-105 hover:bg-gray-300"
+                  : "bg-white text-purple-600 hover:scale-105 hover:shadow-2xl"
+              }`}
+            >
               Get Started Free
               <svg
                 className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform"
@@ -184,7 +249,13 @@ const Hero = () => {
               </svg>
             </button>
 
-            <button className="bg-purple-700/50 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-semibold text-lg border-2 border-white/30 hover:bg-purple-700/70 transition-all duration-300 flex items-center justify-center">
+            <button
+              className={`px-8 py-4 rounded-xl font-semibold text-lg flex items-center justify-center border transition-all duration-300 ${
+                darkMode
+                  ? "bg-gray-700/50 border-gray-500 text-gray-200 hover:bg-gray-700/70"
+                  : "bg-purple-700/50 border-white/30 text-white hover:bg-purple-700/70"
+              }`}
+            >
               <svg
                 className="w-6 h-6 mr-2"
                 fill="currentColor"
@@ -217,7 +288,15 @@ const Hero = () => {
                 <div className="text-3xl sm:text-4xl font-bold">
                   {stat.value}
                 </div>
-                <div className="text-purple-200 text-sm mt-1">{stat.label}</div>
+                <div
+                  className={
+                    darkMode
+                      ? "text-gray-400 text-sm mt-1"
+                      : "text-purple-200 text-sm mt-1"
+                  }
+                >
+                  {stat.label}
+                </div>
               </motion.div>
             ))}
           </motion.div>
@@ -234,7 +313,7 @@ const Hero = () => {
       >
         <svg
           viewBox="0 0 1440 120"
-          fill="white"
+          fill={darkMode ? "#1f2937" : "white"}
           xmlns="http://www.w3.org/2000/svg"
           className="w-full"
         >

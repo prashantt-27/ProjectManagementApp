@@ -1,17 +1,16 @@
 import { useRef, useEffect } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
+import { useTheme } from "../context/ThemeContext";
 
 const About = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true });
   const controls = useAnimation();
+  const { darkMode } = useTheme();
 
   useEffect(() => {
     if (isInView) {
-      controls.start({
-        opacity: 1,
-        y: 0,
-      });
+      controls.start({ opacity: 1, y: 0 });
     }
   }, [isInView, controls]);
 
@@ -35,9 +34,13 @@ const About = () => {
       title: "Project Tracking",
       description:
         "Monitor your project progress in real-time with intuitive dashboards and visual reports. Track milestones, deadlines, and team performance at a glance.",
-      color: "from-purple-500 to-indigo-500",
-      bgColor: "bg-purple-50",
-      iconBg: "bg-purple-100 text-purple-600",
+      color: darkMode
+        ? "from-gray-700 to-gray-600"
+        : "from-purple-500 to-indigo-500",
+      bgColor: darkMode ? "bg-gray-800" : "bg-purple-50",
+      iconBg: darkMode
+        ? "bg-gray-700 text-gray-200"
+        : "bg-purple-100 text-purple-600",
     },
     {
       icon: (
@@ -58,9 +61,13 @@ const About = () => {
       title: "Task Management",
       description:
         "Organize tasks with priority levels, due dates, and assignments. Break down complex projects into manageable tasks and boost your productivity.",
-      color: "from-blue-500 to-cyan-500",
-      bgColor: "bg-blue-50",
-      iconBg: "bg-blue-100 text-blue-600",
+      color: darkMode
+        ? "from-gray-600 to-gray-500"
+        : "from-blue-500 to-cyan-500",
+      bgColor: darkMode ? "bg-gray-800" : "bg-blue-50",
+      iconBg: darkMode
+        ? "bg-gray-700 text-gray-200"
+        : "bg-blue-100 text-blue-600",
     },
     {
       icon: (
@@ -81,9 +88,13 @@ const About = () => {
       title: "Team Collaboration",
       description:
         "Work seamlessly with your team through real-time updates, shared workspaces, and integrated communication tools for better coordination.",
-      color: "from-pink-500 to-rose-500",
-      bgColor: "bg-pink-50",
-      iconBg: "bg-pink-100 text-pink-600",
+      color: darkMode
+        ? "from-gray-600 to-gray-500"
+        : "from-pink-500 to-rose-500",
+      bgColor: darkMode ? "bg-gray-800" : "bg-pink-50",
+      iconBg: darkMode
+        ? "bg-gray-700 text-gray-200"
+        : "bg-pink-100 text-pink-600",
     },
     {
       icon: (
@@ -97,16 +108,20 @@ const About = () => {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+            d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zM12 2v2m0 16v2m10-10h-2M4 12H2m15.071-7.071l-1.414 1.414M6.343 17.657l-1.414 1.414M17.657 17.657l-1.414-1.414M6.343 6.343L4.929 4.929"
           />
         </svg>
       ),
-      title: "Time Tracking",
+      title: "Analytics & Reporting",
       description:
-        "Log time spent on tasks automatically and generate detailed reports. Understand where your time goes and optimize your workflow efficiency.",
-      color: "from-emerald-500 to-green-500",
-      bgColor: "bg-emerald-50",
-      iconBg: "bg-emerald-100 text-emerald-600",
+        "Get actionable insights from your project data with customizable reports, charts, and KPIs to make informed decisions.",
+      color: darkMode
+        ? "from-gray-600 to-gray-500"
+        : "from-green-500 to-lime-500",
+      bgColor: darkMode ? "bg-gray-800" : "bg-green-50",
+      iconBg: darkMode
+        ? "bg-gray-700 text-gray-200"
+        : "bg-green-100 text-green-600",
     },
     {
       icon: (
@@ -120,16 +135,20 @@ const About = () => {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+            d="M3 7h18M3 12h18M3 17h18M3 22h18M3 2h18"
           />
         </svg>
       ),
-      title: "Smart Notifications",
+      title: "Custom Workflows",
       description:
-        "Stay informed with intelligent alerts for deadlines, updates, and mentions. Customize notification preferences to match your workflow style.",
-      color: "from-orange-500 to-amber-500",
-      bgColor: "bg-orange-50",
-      iconBg: "bg-orange-100 text-orange-600",
+        "Design and automate workflows that fit your team’s process. Set triggers, approvals, and notifications to streamline work.",
+      color: darkMode
+        ? "from-gray-700 to-gray-600"
+        : "from-yellow-400 to-orange-400",
+      bgColor: darkMode ? "bg-gray-800" : "bg-yellow-50",
+      iconBg: darkMode
+        ? "bg-gray-700 text-gray-200"
+        : "bg-yellow-100 text-yellow-600",
     },
     {
       icon: (
@@ -143,23 +162,31 @@ const About = () => {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+            d="M5 3v4M19 3v4M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
           />
         </svg>
       ),
-      title: "Advanced Security",
+      title: "File & Resource Management",
       description:
-        "Your data is protected with enterprise-grade encryption and security measures. Control access with role-based permissions and audit logs.",
-      color: "from-violet-500 to-purple-500",
-      bgColor: "bg-violet-50",
-      iconBg: "bg-violet-100 text-violet-600",
+        "Store, share, and manage project files securely. Keep your resources organized and accessible to your team anytime, anywhere.",
+      color: darkMode
+        ? "from-gray-600 to-gray-500"
+        : "from-indigo-500 to-blue-500",
+      bgColor: darkMode ? "bg-gray-800" : "bg-indigo-50",
+      iconBg: darkMode
+        ? "bg-gray-700 text-gray-200"
+        : "bg-indigo-100 text-indigo-600",
     },
   ];
 
   return (
     <section
       ref={sectionRef}
-      className="py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-white to-gray-50 overflow-hidden"
+      className={`py-16 sm:py-20 lg:py-24 overflow-hidden ${
+        darkMode
+          ? "bg-gray-900 text-gray-200"
+          : "bg-gradient-to-b from-white to-gray-50 text-gray-900"
+      }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
@@ -169,16 +196,28 @@ const About = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <span className="inline-flex items-center justify-center px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold mb-4">
+          <span
+            className={`inline-flex items-center justify-center px-4 py-2 rounded-full text-sm font-semibold mb-4 ${
+              darkMode
+                ? "bg-gray-700 text-gray-200"
+                : "bg-purple-100 text-purple-700"
+            }`}
+          >
             ✨ Powerful Features
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
             Everything You Need to{" "}
             <span className="block bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
               Manage Projects Better
             </span>
           </h2>
-          <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+          <p
+            className={
+              darkMode
+                ? "text-gray-400"
+                : "text-gray-600 text-lg sm:text-xl max-w-3xl mx-auto"
+            }
+          >
             Discover the tools and features that make project management simple,
             efficient, and enjoyable for teams of all sizes.
           </p>
@@ -196,11 +235,15 @@ const About = () => {
                 duration: 0.6,
                 ease: "easeOut",
               }}
-              className={`group relative bg-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl border border-gray-100 transition-all duration-500 hover:-translate-y-2`}
+              className={`group relative rounded-2xl p-6 sm:p-8 shadow-lg transition-all duration-500 border ${
+                darkMode
+                  ? "bg-gray-800 border-gray-700 hover:-translate-y-2 hover:shadow-2xl"
+                  : "bg-white border-gray-100 hover:-translate-y-2 hover:shadow-2xl"
+              }`}
             >
               {/* Hover background glow */}
               <div
-                className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity`}
+                className={`absolute inset-0 opacity-0 group-hover:opacity-5 rounded-2xl bg-gradient-to-br ${feature.color} transition-opacity`}
               ></div>
 
               {/* Icon */}
@@ -214,28 +257,18 @@ const About = () => {
 
               {/* Content */}
               <div className="relative">
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition-colors">
+                <h3
+                  className={`text-xl sm:text-2xl font-bold mb-3 transition-colors ${
+                    darkMode
+                      ? "text-gray-200 group-hover:text-purple-400"
+                      : "text-gray-900 group-hover:text-purple-600"
+                  }`}
+                >
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed mb-4">
+                <p className={darkMode ? "text-gray-400" : "text-gray-600"}>
                   {feature.description}
                 </p>
-                <div className="flex items-center text-purple-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  Learn more
-                  <svg
-                    className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 8l4 4m0 0l-4 4m4-4H3"
-                    />
-                  </svg>
-                </div>
               </div>
             </motion.div>
           ))}
