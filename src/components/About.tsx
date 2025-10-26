@@ -1,4 +1,20 @@
+import { useRef, useEffect } from "react";
+import { motion, useAnimation, useInView } from "framer-motion";
+
 const About = () => {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true });
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (isInView) {
+      controls.start({
+        opacity: 1,
+        y: 0,
+      });
+    }
+  }, [isInView, controls]);
+
   const features = [
     {
       icon: (
@@ -141,91 +157,91 @@ const About = () => {
   ];
 
   return (
-    <>
-      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-white to-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Header */}
-          <div className="text-center mb-12 sm:mb-16">
-            <div className="inline-flex items-center justify-center px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold mb-4">
-              ✨ Powerful Features
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              Everything You Need to
-              <span className="block bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                Manage Projects Better
-              </span>
-            </h2>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
-              Discover the tools and features that make project management
-              simple, efficient, and enjoyable for teams of all sizes
-            </p>
-          </div>
+    <section
+      ref={sectionRef}
+      className="py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-white to-gray-50 overflow-hidden"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
+        >
+          <span className="inline-flex items-center justify-center px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold mb-4">
+            ✨ Powerful Features
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+            Everything You Need to{" "}
+            <span className="block bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+              Manage Projects Better
+            </span>
+          </h2>
+          <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+            Discover the tools and features that make project management simple,
+            efficient, and enjoyable for teams of all sizes.
+          </p>
+        </motion.div>
 
-          {/* Features Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {features.map((feature, index) => (
+        {/* Feature Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {features.map((feature, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 40 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+              transition={{
+                delay: index * 0.15,
+                duration: 0.6,
+                ease: "easeOut",
+              }}
+              className={`group relative bg-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl border border-gray-100 transition-all duration-500 hover:-translate-y-2`}
+            >
+              {/* Hover background glow */}
               <div
-                key={index}
-                className="group relative bg-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
-              >
-                {/* Gradient Background on Hover */}
+                className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity`}
+              ></div>
+
+              {/* Icon */}
+              <div className="relative mb-6">
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-300`}
-                ></div>
-
-                {/* Icon */}
-                <div className="relative mb-6">
-                  <div
-                    className={`${feature.iconBg} w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}
-                  >
-                    {feature.icon}
-                  </div>
-                  {/* Decorative Element */}
-                  <div
-                    className={`absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br ${feature.color} rounded-lg opacity-20 group-hover:opacity-40 transition-opacity`}
-                  ></div>
+                  className={`${feature.iconBg} w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}
+                >
+                  {feature.icon}
                 </div>
-
-                {/* Content */}
-                <div className="relative">
-                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition-colors">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed mb-4">
-                    {feature.description}
-                  </p>
-
-                  {/* Learn More Link */}
-                  <div className="flex items-center text-purple-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    Learn more
-                    <svg
-                      className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17 8l4 4m0 0l-4 4m4-4H3"
-                      />
-                    </svg>
-                  </div>
-                </div>
-
-                {/* Corner Accent */}
-                <div
-                  className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-10 rounded-bl-full transition-opacity duration-300`}
-                ></div>
               </div>
-            ))}
-          </div>
 
-          {/* Bottom CTA */}
+              {/* Content */}
+              <div className="relative">
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition-colors">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 leading-relaxed mb-4">
+                  {feature.description}
+                </p>
+                <div className="flex items-center text-purple-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  Learn more
+                  <svg
+                    className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
 

@@ -24,7 +24,7 @@ const Preloader = ({ onFinish }: { onFinish: () => void }) => {
           width: "50px",
           height: "50px",
           borderRadius: "50%",
-          backgroundColor: "#61dafb",
+          backgroundColor: "oklch(62.7% 0.265 303.9)",
         }}
         animate={{
           rotate: 360,
