@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
 import {
   addProject,
   setActiveIndex,
@@ -11,9 +10,11 @@ import {
 } from "../redux/slices/projectSlice";
 import type { RootState } from "../redux/store";
 import toast from "react-hot-toast";
+import { useTheme } from "../context/ThemeContext";
 
 const ProjectPage = () => {
   const dispatch = useDispatch();
+  const { darkMode } = useTheme();
   const { projectList, activeIndex } = useSelector(
     (state: RootState) => state.project
   );
@@ -59,14 +60,30 @@ const ProjectPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 pb-12 ">
+    <div
+      className={`min-h-screen pb-12 transition-colors duration-300 ${
+        darkMode
+          ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"
+          : "bg-gradient-to-br from-purple-50 via-white to-blue-50"
+      }`}
+    >
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-purple-600 to-blue-600 mt-16 text-white py-8 px-4 sm:py-12 shadow-lg">
+      <div
+        className={`mt-16 py-8 px-4 sm:py-12 shadow-lg transition-colors duration-300 ${
+          darkMode
+            ? "bg-gradient-to-r from-purple-900 to-blue-900 text-white"
+            : "bg-gradient-to-r from-purple-600 to-blue-600 text-white"
+        }`}
+      >
         <div className="max-w-6xl mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2">
             Project Dashboard
           </h1>
-          <p className="text-purple-100 text-sm sm:text-base">
+          <p
+            className={`text-sm sm:text-base ${
+              darkMode ? "text-purple-200" : "text-purple-100"
+            }`}
+          >
             Manage your projects and tasks efficiently
           </p>
         </div>
@@ -75,9 +92,25 @@ const ProjectPage = () => {
       {/* Main Content */}
       <div className="max-w-6xl mt-5 mx-auto px-4 sm:px-6 lg:px-8">
         {/* Add Project Card */}
-        <div className="bg-white rounded-2xl shadow-xl  p-4 sm:p-6 mb-8 border border-gray-100">
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4 flex items-center">
-            <span className="bg-purple-100 text-purple-600 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">
+        <div
+          className={`rounded-2xl shadow-xl p-4 sm:p-6 mb-8 border transition-colors duration-300 ${
+            darkMode
+              ? "bg-gray-800 border-gray-700"
+              : "bg-white border-gray-100"
+          }`}
+        >
+          <h2
+            className={`text-lg sm:text-xl font-semibold mb-4 flex items-center ${
+              darkMode ? "text-gray-100" : "text-gray-800"
+            }`}
+          >
+            <span
+              className={`rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm ${
+                darkMode
+                  ? "bg-purple-900 text-purple-300"
+                  : "bg-purple-100 text-purple-600"
+              }`}
+            >
               +
             </span>
             Create New Project
@@ -89,7 +122,11 @@ const ProjectPage = () => {
               onChange={(e) => setNewProject(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleAddProject()}
               placeholder="Enter project name..."
-              className="flex-1 px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:border-purple-500 transition"
+              className={`flex-1 px-4 py-3 rounded-xl border-2 focus:outline-none transition ${
+                darkMode
+                  ? "bg-gray-700 border-gray-600 text-gray-100 placeholder-gray-400 focus:border-purple-500"
+                  : "bg-white border-gray-200 text-gray-900 placeholder-gray-400 focus:border-purple-500"
+              }`}
             />
             <button
               className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition transform hover:scale-105 whitespace-nowrap"
@@ -104,10 +141,14 @@ const ProjectPage = () => {
         {userProjects.length === 0 ? (
           <div className="text-center py-16">
             <div className="text-6xl mb-4">📋</div>
-            <h3 className="text-xl font-semibold text-gray-700 mb-2">
+            <h3
+              className={`text-xl font-semibold mb-2 ${
+                darkMode ? "text-gray-200" : "text-gray-700"
+              }`}
+            >
               No projects yet
             </h3>
-            <p className="text-gray-500">
+            <p className={darkMode ? "text-gray-400" : "text-gray-500"}>
               Create your first project to get started!
             </p>
           </div>
@@ -120,16 +161,28 @@ const ProjectPage = () => {
               return (
                 <div
                   key={pIndex}
-                  className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100"
+                  className={`rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border ${
+                    darkMode
+                      ? "bg-gray-800 border-gray-700"
+                      : "bg-white border-gray-100"
+                  }`}
                 >
                   {/* Project Header */}
                   <div className="p-4 sm:p-6">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                       <div className="flex-1">
-                        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
+                        <h2
+                          className={`text-xl sm:text-2xl font-bold mb-2 ${
+                            darkMode ? "text-gray-100" : "text-gray-800"
+                          }`}
+                        >
                           {project.projectName}
                         </h2>
-                        <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600">
+                        <div
+                          className={`flex flex-wrap items-center gap-3 text-sm ${
+                            darkMode ? "text-gray-300" : "text-gray-600"
+                          }`}
+                        >
                           <span className="flex items-center">
                             <span className="font-semibold mr-1">
                               {stats.completed}
@@ -137,14 +190,24 @@ const ProjectPage = () => {
                             / {stats.total} tasks completed
                           </span>
                           {stats.total > 0 && (
-                            <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">
+                            <span
+                              className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                darkMode
+                                  ? "bg-purple-900 text-purple-300"
+                                  : "bg-purple-100 text-purple-700"
+                              }`}
+                            >
                               {Math.round(stats.progress)}% done
                             </span>
                           )}
                         </div>
                         {/* Progress Bar */}
                         {stats.total > 0 && (
-                          <div className="mt-3 w-full bg-gray-200 rounded-full h-2.5">
+                          <div
+                            className={`mt-3 w-full rounded-full h-2.5 ${
+                              darkMode ? "bg-gray-700" : "bg-gray-200"
+                            }`}
+                          >
                             <div
                               className="bg-gradient-to-r from-purple-600 to-blue-600 h-2.5 rounded-full transition-all duration-500"
                               style={{ width: `${stats.progress}%` }}
@@ -169,7 +232,13 @@ const ProjectPage = () => {
 
                   {/* Tasks Section */}
                   {isActive && (
-                    <div className="border-t border-gray-100 bg-gray-50 p-4 sm:p-6">
+                    <div
+                      className={`border-t p-4 sm:p-6 transition-colors duration-300 ${
+                        darkMode
+                          ? "border-gray-700 bg-gray-900"
+                          : "border-gray-100 bg-gray-50"
+                      }`}
+                    >
                       {/* Add Task */}
                       <div className="mb-6">
                         <div className="flex flex-col sm:flex-row gap-3">
@@ -181,7 +250,11 @@ const ProjectPage = () => {
                               e.key === "Enter" && handleAddTask(pIndex)
                             }
                             placeholder="Add a new task..."
-                            className="flex-1 px-4 py-3 rounded-xl border-2 border-gray-200 bg-white focus:outline-none focus:border-purple-500 transition"
+                            className={`flex-1 px-4 py-3 rounded-xl border-2 focus:outline-none focus:border-purple-500 transition ${
+                              darkMode
+                                ? "bg-gray-800 border-gray-700 text-gray-100 placeholder-gray-400"
+                                : "bg-white border-gray-200 text-gray-900 placeholder-gray-400"
+                            }`}
                           />
                           <button
                             className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition transform hover:scale-105 whitespace-nowrap"
@@ -198,11 +271,15 @@ const ProjectPage = () => {
                           project.tasks.map((task, tIndex) => (
                             <div
                               key={tIndex}
-                              className={`${
+                              className={`border-2 rounded-xl p-4 transition-all duration-300 hover:shadow-md ${
                                 task.completed
-                                  ? "bg-green-50 border-green-200"
+                                  ? darkMode
+                                    ? "bg-green-900/30 border-green-700"
+                                    : "bg-green-50 border-green-200"
+                                  : darkMode
+                                  ? "bg-gray-800 border-gray-700"
                                   : "bg-white border-gray-200"
-                              } border-2 rounded-xl p-4 transition-all duration-300 hover:shadow-md`}
+                              }`}
                             >
                               {editIndex === tIndex ? (
                                 <div className="flex flex-col sm:flex-row gap-3">
@@ -212,7 +289,11 @@ const ProjectPage = () => {
                                     onChange={(e) =>
                                       setEditTaskName(e.target.value)
                                     }
-                                    className="flex-1 px-4 py-2 rounded-lg border-2 border-purple-300 focus:outline-none focus:border-purple-500"
+                                    className={`flex-1 px-4 py-2 rounded-lg border-2 focus:outline-none focus:border-purple-500 ${
+                                      darkMode
+                                        ? "bg-gray-700 border-gray-600 text-gray-100"
+                                        : "bg-white border-purple-300 text-gray-900"
+                                    }`}
                                   />
                                   <div className="flex gap-2">
                                     <button
@@ -259,7 +340,11 @@ const ProjectPage = () => {
                                     <p
                                       className={`text-base sm:text-lg flex-1 ${
                                         task.completed
-                                          ? "line-through text-green-600"
+                                          ? darkMode
+                                            ? "line-through text-green-400"
+                                            : "line-through text-green-600"
+                                          : darkMode
+                                          ? "text-gray-200"
                                           : "text-gray-800"
                                       }`}
                                     >
@@ -298,7 +383,11 @@ const ProjectPage = () => {
                         ) : (
                           <div className="text-center py-8">
                             <div className="text-4xl mb-2">📝</div>
-                            <p className="text-gray-500">
+                            <p
+                              className={
+                                darkMode ? "text-gray-400" : "text-gray-500"
+                              }
+                            >
                               No tasks yet. Add your first task above!
                             </p>
                           </div>

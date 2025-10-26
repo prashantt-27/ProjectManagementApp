@@ -1,5 +1,4 @@
-import { useState, type JSX } from "react";
-
+import { useState, type JSX, lazy } from "react";
 import Navbar from "./components/Navbar";
 import {
   BrowserRouter as Router,
@@ -10,9 +9,9 @@ import {
 import { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import type { RootState } from "./redux/store";
-import { lazy } from "react";
 import Preloader from "./components/Preloader";
 import Footer from "./components/Footer";
+import { ThemeProvider } from "./context/ThemeContext"; // <-- import ThemeProvider
 
 const Hero = lazy(() => import("./components/Hero"));
 const LoginForm = lazy(() => import("./authentication/LoginForm"));
@@ -24,16 +23,14 @@ const CompleteLandingPage = lazy(
 );
 
 // Landing Page Component
-const LandingPage = () => {
-  return (
-    <div className="scroll-smooth">
-      <Hero />
-      <About />
-      <CompleteLandingPage />
-      <Footer />
-    </div>
-  );
-};
+const LandingPage = () => (
+  <div className="scroll-smooth">
+    <Hero />
+    <About />
+    <CompleteLandingPage />
+    <Footer />
+  </div>
+);
 
 // Private Route Component
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -45,21 +42,20 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   return (
-    <>
+    <ThemeProvider>
       {loading ? (
         <Preloader onFinish={() => setLoading(false)} />
       ) : (
-        <div className="font-sans bg-gray-50 text-gray-800">
+        <div className="font-sans bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-500">
           <Toaster position="top-center" reverseOrder={false} />
           <Router>
             <Navbar />
 
             <Routes>
-              {/* Landing page route */}
               <Route path="/" element={<LandingPage />} />
               <Route path="/login" element={<LoginForm />} />
               <Route path="/sign" element={<SignIn />} />
-              <Route path="/price" element={<CompleteLandingPage />}></Route>
+              <Route path="/price" element={<CompleteLandingPage />} />
               <Route
                 path="/project"
                 element={
@@ -69,7 +65,6 @@ const App = () => {
                 }
               />
               <Route path="/about" element={<About />} />
-              {/* Contact page protected */}
               <Route
                 path="/contact"
                 element={
@@ -78,13 +73,12 @@ const App = () => {
                   </PrivateRoute>
                 }
               />
-              {/* Fallback route */}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Router>
         </div>
       )}
-    </>
+    </ThemeProvider>
   );
 };
 
