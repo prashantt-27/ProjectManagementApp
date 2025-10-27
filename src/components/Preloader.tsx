@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-import { useEffect } from "react";
-
-import { motion } from "framer-motion";
-=======
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatedCircularProgressBar } from "../animation/AnimatedCircularProgressBar";
 
 interface PreloaderProps {
@@ -13,7 +8,6 @@ interface PreloaderProps {
 const Preloader = ({ onFinish }: PreloaderProps) => {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(true);
->>>>>>> animation
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -35,7 +29,7 @@ const Preloader = ({ onFinish }: PreloaderProps) => {
   if (!loading) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-white dark:bg-black z-[9999] transition-colors duration-500">
+    <div className="fixed inset-0 flex items-center justify-center bg-white dark:bg-black z-9999 transition-colors duration-500">
       <AnimatedCircularProgressBar
         value={progress}
         gaugePrimaryColor="#3b82f6" // blue-500
