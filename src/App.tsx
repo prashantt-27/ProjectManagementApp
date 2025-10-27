@@ -15,8 +15,6 @@ import { ThemeProvider } from "./context/ThemeContext";
 import AuthSlider from "./authentication/AuthSlider";
 
 const Hero = lazy(() => import("./components/Hero"));
-const LoginForm = lazy(() => import("./authentication/LoginForm"));
-const SignIn = lazy(() => import("./authentication/SignIn"));
 const ProjectPage = lazy(() => import("./components/ProjectPage"));
 const About = lazy(() => import("./components/About"));
 const CompleteLandingPage = lazy(
