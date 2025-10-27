@@ -20,6 +20,28 @@ const scaleIn = {
   }),
 };
 
+// Simple Marquee Component
+const Marquee = ({ children, reverse = false, className = "" }: any) => {
+  return (
+    <div className={`flex overflow-hidden ${className}`}>
+      <motion.div
+        className="flex gap-4"
+        animate={{
+          x: reverse ? [0, -1000] : [-1000, 0],
+        }}
+        transition={{
+          duration: 25,
+          repeat: Infinity,
+          ease: "linear",
+        }}
+      >
+        {children}
+        {children}
+      </motion.div>
+    </div>
+  );
+};
+
 const CompleteLandingPage = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const { darkMode } = useTheme();
@@ -32,9 +54,8 @@ const CompleteLandingPage = () => {
       content:
         "This platform transformed how our team collaborates. We've seen a 40% increase in productivity since switching. The interface is intuitive and the features are exactly what we needed.",
       rating: 5,
-      color: darkMode
-        ? "from-gray-700 to-gray-600"
-        : "from-purple-500 to-indigo-500",
+      colorLight: "from-purple-500 to-indigo-500",
+      colorDark: "from-purple-600 to-indigo-600",
     },
     {
       name: "Michael Rodriguez",
@@ -43,9 +64,8 @@ const CompleteLandingPage = () => {
       content:
         "Best project management tool we've ever used. The time tracking feature alone has saved us countless hours. Highly recommend for any growing team!",
       rating: 5,
-      color: darkMode
-        ? "from-gray-700 to-gray-600"
-        : "from-blue-500 to-cyan-500",
+      colorLight: "from-blue-500 to-cyan-500",
+      colorDark: "from-blue-600 to-cyan-600",
     },
     {
       name: "Emily Watson",
@@ -54,9 +74,38 @@ const CompleteLandingPage = () => {
       content:
         "The collaborative features are game-changing. Our remote team stays perfectly synchronized, and the real-time updates keep everyone on the same page effortlessly.",
       rating: 5,
-      color: darkMode
-        ? "from-gray-700 to-gray-600"
-        : "from-pink-500 to-rose-500",
+      colorLight: "from-pink-500 to-rose-500",
+      colorDark: "from-pink-600 to-rose-600",
+    },
+    {
+      name: "Sophia Lee",
+      role: "Project Manager at CodeFlow",
+      image: "SL",
+      content:
+        "Our workflow efficiency skyrocketed. The dashboards are clean, and everything feels modern and fast.",
+      rating: 5,
+      colorLight: "from-green-500 to-emerald-500",
+      colorDark: "from-green-600 to-emerald-600",
+    },
+    {
+      name: "David Kim",
+      role: "Team Lead at InnovateX",
+      image: "DK",
+      content:
+        "Impressive UI/UX and top-tier performance. Switching themes feels seamless. Great work!",
+      rating: 5,
+      colorLight: "from-orange-500 to-yellow-500",
+      colorDark: "from-orange-600 to-yellow-600",
+    },
+    {
+      name: "Ava Johnson",
+      role: "Marketing Head at BrightWave",
+      image: "AJ",
+      content:
+        "An elegant platform with smooth animations. Love how intuitive everything feels.",
+      rating: 5,
+      colorLight: "from-fuchsia-500 to-purple-500",
+      colorDark: "from-fuchsia-600 to-purple-600",
     },
   ];
 
@@ -73,9 +122,7 @@ const CompleteLandingPage = () => {
         "Email support",
         "Mobile app access",
       ],
-      color: darkMode
-        ? "from-gray-600 to-gray-700"
-        : "from-gray-600 to-gray-700",
+      color: "from-gray-600 to-gray-700",
       popular: false,
     },
     {
@@ -92,9 +139,7 @@ const CompleteLandingPage = () => {
         "Time tracking",
         "Advanced analytics",
       ],
-      color: darkMode
-        ? "from-purple-600 to-indigo-600"
-        : "from-purple-600 to-indigo-600",
+      color: "from-purple-600 to-indigo-600",
       popular: true,
     },
     {
@@ -111,9 +156,7 @@ const CompleteLandingPage = () => {
         "API access",
         "White-label options",
       ],
-      color: darkMode
-        ? "from-emerald-600 to-green-600"
-        : "from-emerald-600 to-green-600",
+      color: "from-emerald-600 to-green-600",
       popular: false,
     },
   ];
@@ -140,13 +183,75 @@ const CompleteLandingPage = () => {
     },
   ];
 
+  const firstRow = testimonials.slice(0, 3);
+  const secondRow = testimonials.slice(3);
+
+  const TestimonialsCard = ({
+    name,
+    role,
+    content,
+    rating,
+    image,
+    colorLight,
+    colorDark,
+  }: any) => (
+    <motion.figure
+      whileHover={{ scale: 1.05 }}
+      className={`relative w-72 cursor-pointer overflow-hidden rounded-2xl border p-6 mx-4 transition-all
+        ${
+          darkMode
+            ? "border-gray-700 bg-gray-800 hover:bg-gray-750 shadow-lg hover:shadow-2xl"
+            : "border-gray-200 bg-white hover:shadow-xl shadow-md"
+        }`}
+    >
+      <div className="flex items-center mb-3">
+        {[...Array(rating)].map((_, i) => (
+          <svg
+            key={i}
+            className="w-4 h-4 text-yellow-400"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+          </svg>
+        ))}
+      </div>
+      <blockquote
+        className={`text-sm italic mb-4 ${
+          darkMode ? "text-gray-300" : "text-gray-700"
+        }`}
+      >
+        "{content}"
+      </blockquote>
+      <div className="flex items-center">
+        <div
+          className={`w-10 h-10 rounded-full flex items-center justify-center font-bold mr-3 text-white bg-gradient-to-br ${
+            darkMode ? colorDark : colorLight
+          }`}
+        >
+          {image}
+        </div>
+        <div>
+          <figcaption
+            className={`font-semibold ${
+              darkMode ? "text-gray-100" : "text-gray-900"
+            }`}
+          >
+            {name}
+          </figcaption>
+          <p className="text-xs text-gray-500 dark:text-gray-400">{role}</p>
+        </div>
+      </div>
+    </motion.figure>
+  );
+
   return (
     <div
       className={
-        darkMode ? "bg-gray-900 text-gray-200" : "bg-white text-gray-900"
+        darkMode ? "bg-gray-900 text-gray-100" : "bg-white text-gray-900"
       }
     >
-      {/* 🌍 Testimonials Section */}
+      {/* Testimonials Section */}
       <section
         className={`py-20 ${
           darkMode ? "bg-gray-800" : "bg-gradient-to-b from-gray-50 to-white"
@@ -171,7 +276,7 @@ const CompleteLandingPage = () => {
             </span>
             <h2
               className={`text-4xl lg:text-5xl font-bold mt-4 ${
-                darkMode ? "text-gray-200" : "text-gray-900"
+                darkMode ? "text-gray-100" : "text-gray-900"
               }`}
             >
               Loved by Teams{" "}
@@ -181,62 +286,39 @@ const CompleteLandingPage = () => {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((t, i) => (
-              <motion.div
-                key={i}
-                variants={scaleIn}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                custom={i * 0.2}
-                className={`rounded-2xl p-8 shadow-lg border transition-all duration-500 ${
-                  darkMode
-                    ? "bg-gray-800 border-gray-700 hover:shadow-2xl"
-                    : "bg-white border-gray-100 hover:shadow-2xl"
-                }`}
-              >
-                <div className="flex items-center mb-4">
-                  {[...Array(t.rating)].map((_, i) => (
-                    <svg
-                      key={i}
-                      className="w-5 h-5 text-yellow-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                    </svg>
-                  ))}
-                </div>
-                <p
-                  className={
-                    darkMode
-                      ? "text-gray-300 mb-6 italic"
-                      : "text-gray-700 mb-6 italic"
-                  }
-                >
-                  "{t.content}"
-                </p>
-                <div className="flex items-center">
-                  <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center font-bold mr-4 bg-gradient-to-br ${t.color} text-white`}
-                  >
-                    {t.image}
-                  </div>
-                  <div>
-                    <p className="font-bold">{t.name}</p>
-                    <p className={darkMode ? "text-gray-400" : "text-gray-600"}>
-                      {t.role}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+          <div className="relative flex w-full flex-col items-center justify-center overflow-hidden py-12">
+            <Marquee className="mb-4">
+              {firstRow.map((t, i) => (
+                <TestimonialsCard key={i} {...t} />
+              ))}
+            </Marquee>
+
+            <Marquee reverse>
+              {secondRow.map((t, i) => (
+                <TestimonialsCard key={i} {...t} />
+              ))}
+            </Marquee>
+
+            {/* Improved Gradient Edges */}
+            <div
+              className={`pointer-events-none absolute inset-y-0 left-0 w-1/4 ${
+                darkMode
+                  ? "bg-gradient-to-r from-gray-800"
+                  : "bg-gradient-to-r from-white"
+              }`}
+            ></div>
+            <div
+              className={`pointer-events-none absolute inset-y-0 right-0 w-1/4 ${
+                darkMode
+                  ? "bg-gradient-to-l from-gray-800"
+                  : "bg-gradient-to-l from-white"
+              }`}
+            ></div>
           </div>
         </div>
       </section>
 
-      {/* 💎 Pricing Section */}
+      {/* Pricing Section */}
       <section
         className={`py-20 ${
           darkMode ? "bg-gray-900" : "bg-gradient-to-b from-white to-gray-50"
@@ -245,7 +327,7 @@ const CompleteLandingPage = () => {
         <div className="max-w-7xl mx-auto px-6 text-center">
           <motion.h2
             className={`text-4xl lg:text-5xl font-bold mb-12 ${
-              darkMode ? "text-gray-200" : "text-gray-900"
+              darkMode ? "text-gray-100" : "text-gray-900"
             }`}
             variants={fadeInUp}
             initial="hidden"
@@ -267,63 +349,41 @@ const CompleteLandingPage = () => {
                 whileInView="visible"
                 viewport={{ once: true }}
                 custom={i * 0.2}
-                className={`rounded-2xl p-8 shadow-lg border-2 transition-all duration-500
-            ${
-              plan.popular
-                ? darkMode
-                  ? "scale-105 border-purple-600 bg-gradient-to-r from-purple-700 to-indigo-700 text-white"
-                  : "scale-105 border-purple-600 bg-gradient-to-r from-purple-600 to-indigo-600 text-white"
-                : darkMode
-                ? "border-gray-700 hover:-translate-y-2 bg-gray-800 text-gray-200"
-                : "border-gray-100 hover:-translate-y-2 bg-gray-200 text-gray-900"
-            }
-          `}
+                className={`rounded-2xl p-8 shadow-xl border-2 transition-all duration-500
+                  ${
+                    plan.popular
+                      ? "scale-105 border-purple-500 bg-gradient-to-br from-purple-600 to-indigo-600 text-white"
+                      : darkMode
+                      ? "border-gray-700 hover:-translate-y-2 bg-gray-800 text-gray-100 hover:border-gray-600"
+                      : "border-gray-200 hover:-translate-y-2 bg-white text-gray-900 hover:border-purple-300 hover:shadow-2xl"
+                  }`}
               >
                 {plan.popular && (
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm font-bold mb-3 inline-block ${
-                      darkMode
-                        ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"
-                        : "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"
-                    }`}
-                  >
-                    Most Popular
+                  <span className="px-3 py-1 rounded-full text-sm font-bold mb-3 inline-block bg-white/20 text-white backdrop-blur-sm">
+                    ⭐ Most Popular
                   </span>
                 )}
-                <h3
-                  className={`text-2xl font-bold mb-2 ${
-                    darkMode
-                      ? plan.popular
-                        ? "text-white"
-                        : "text-gray-200"
-                      : "text-gray-900"
-                  }`}
-                >
-                  {plan.name}
-                </h3>
+                <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
                 <p
-                  className={
-                    darkMode ? "text-gray-400 mb-4" : "text-gray-600 mb-4"
-                  }
+                  className={`mb-4 ${
+                    plan.popular
+                      ? "text-purple-100"
+                      : darkMode
+                      ? "text-gray-400"
+                      : "text-gray-600"
+                  }`}
                 >
                   {plan.description}
                 </p>
-                <p
-                  className={`text-5xl font-bold mb-6 ${
-                    darkMode
-                      ? plan.popular
-                        ? "text-white"
-                        : "text-gray-200"
-                      : "text-gray-900"
-                  }`}
-                >
+                <p className="text-5xl font-bold mb-6">
                   ${plan.price}
+                  <span className="text-lg font-normal">/mo</span>
                 </p>
-                <ul className="text-left mb-8 space-y-2">
+                <ul className="text-left mb-8 space-y-3">
                   {plan.features.map((f, j) => (
-                    <li key={j} className="flex items-center">
+                    <li key={j} className="flex items-start">
                       <svg
-                        className="w-5 h-5 text-green-500 mr-2"
+                        className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -335,19 +395,29 @@ const CompleteLandingPage = () => {
                           d="M5 13l4 4L19 7"
                         />
                       </svg>
-                      {f}
+                      <span
+                        className={
+                          plan.popular
+                            ? "text-purple-50"
+                            : darkMode
+                            ? "text-gray-300"
+                            : "text-gray-700"
+                        }
+                      >
+                        {f}
+                      </span>
                     </li>
                   ))}
                 </ul>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`w-full py-3 rounded-xl font-bold text-lg ${
+                  className={`w-full py-3 rounded-xl font-bold text-lg transition-all ${
                     plan.popular
-                      ? "bg-white text-purple-700 hover:bg-gray-100"
+                      ? "bg-white text-purple-700 hover:bg-purple-50 shadow-lg"
                       : darkMode
-                      ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
-                      : "bg-gray-100 text-gray-900 hover:bg-gray-200"
+                      ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-500 hover:to-indigo-500"
+                      : "bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 shadow-md hover:shadow-lg"
                   }`}
                 >
                   Get Started
@@ -357,7 +427,8 @@ const CompleteLandingPage = () => {
           </div>
         </div>
       </section>
-      {/* ❓ FAQ Section */}
+
+      {/* FAQ Section */}
       <section
         className={`py-20 ${
           darkMode ? "bg-gray-800" : "bg-gradient-to-b from-gray-50 to-white"
@@ -366,7 +437,7 @@ const CompleteLandingPage = () => {
         <div className="max-w-4xl mx-auto px-6">
           <motion.h2
             className={`text-4xl lg:text-5xl font-bold text-center mb-12 ${
-              darkMode ? "text-gray-200" : "text-gray-900"
+              darkMode ? "text-gray-100" : "text-gray-900"
             }`}
             variants={fadeInUp}
             initial="hidden"
@@ -390,8 +461,8 @@ const CompleteLandingPage = () => {
                 custom={i * 0.15}
                 className={`rounded-xl shadow-md border transition-all duration-300 ${
                   darkMode
-                    ? "bg-gray-900 border-gray-700"
-                    : "bg-white border-gray-100"
+                    ? "bg-gray-900 border-gray-700 hover:border-gray-600"
+                    : "bg-white border-gray-200 hover:border-purple-300 hover:shadow-lg"
                 }`}
               >
                 <button
@@ -400,7 +471,7 @@ const CompleteLandingPage = () => {
                 >
                   <span
                     className={`font-semibold text-lg ${
-                      darkMode ? "text-gray-200" : "text-gray-900"
+                      darkMode ? "text-gray-100" : "text-gray-900"
                     }`}
                   >
                     {faq.question}
@@ -408,19 +479,19 @@ const CompleteLandingPage = () => {
                   <motion.span
                     animate={{ rotate: openFaq === i ? 180 : 0 }}
                     transition={{ duration: 0.3 }}
+                    className={darkMode ? "text-gray-400" : "text-gray-600"}
                   >
                     ▼
                   </motion.span>
                 </button>
                 {openFaq === i && (
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className={
-                      darkMode
-                        ? "px-6 pb-5 text-gray-400"
-                        : "px-6 pb-5 text-gray-600"
-                    }
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className={`px-6 pb-5 ${
+                      darkMode ? "text-gray-300" : "text-gray-700"
+                    }`}
                   >
                     {faq.answer}
                   </motion.div>

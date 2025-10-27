@@ -11,7 +11,8 @@ import { useSelector } from "react-redux";
 import type { RootState } from "./redux/store";
 import Preloader from "./components/Preloader";
 import Footer from "./components/Footer";
-import { ThemeProvider } from "./context/ThemeContext"; // <-- import ThemeProvider
+import { ThemeProvider } from "./context/ThemeContext";
+import AuthSlider from "./authentication/AuthSlider";
 
 const Hero = lazy(() => import("./components/Hero"));
 const LoginForm = lazy(() => import("./authentication/LoginForm"));
@@ -53,8 +54,7 @@ const App = () => {
 
             <Routes>
               <Route path="/" element={<LandingPage />} />
-              <Route path="/login" element={<LoginForm />} />
-              <Route path="/sign" element={<SignIn />} />
+              <Route path="/login" element={<AuthSlider />} />
               <Route path="/price" element={<CompleteLandingPage />} />
               <Route
                 path="/project"

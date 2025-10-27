@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
+import { HyperText } from "../animation/HyperText";
 
 const Hero = () => {
   const { darkMode } = useTheme();
@@ -286,7 +287,7 @@ const Hero = () => {
                 className="text-center"
               >
                 <div className="text-3xl sm:text-4xl font-bold">
-                  {stat.value}
+                  <HyperText>{stat.value}</HyperText>
                 </div>
                 <div
                   className={
