@@ -5,6 +5,7 @@ import type { RootState } from "../redux/store";
 import { logout } from "../redux/slices/userSlice";
 import logo from "../assets/logo.jpg";
 import { useTheme } from "../context/ThemeContext";
+import { ScrollProgress } from "../animation/ScrollProgress";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -45,6 +46,9 @@ const Navbar = () => {
             : "bg-white/80 border-gray-200/50"
         }`}
       >
+        {/* <ScrollProgress className="top-[78px] sticky top-[var(--navbar-height,64px)] z-40" /> */}
+        <ScrollProgress className="fixed top-[64px] md:top-[78px] z-50" />
+
         <div className="max-w-7xl mx-auto px-4 h-auto sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 md:h-20">
             {/* Logo Section */}

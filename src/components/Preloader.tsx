@@ -1,40 +1,39 @@
-import { useEffect } from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { AnimatedCircularProgressBar } from "../animation/AnimatedCircularProgressBar";
 
-const Preloader = ({ onFinish }: { onFinish: () => void }) => {
+interface PreloaderProps {
+  onFinish: () => void;
+}
+
+const Preloader = ({ onFinish }: PreloaderProps) => {
+  const [progress, setProgress] = useState(0);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    const timer = setTimeout(() => {
-      onFinish();
-    }, 3000); // 3 seconds
-    return () => clearTimeout(timer);
-  }, [onFinish]);
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            setLoading(false);
+            onFinish();
+          }, 500);
+          return 100;
+        }
+        return prev + 5;
+      });
+    }, 100);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (!loading) return null;
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        background: "#222",
-      }}
-    >
-      <motion.div
-        style={{
-          width: "50px",
-          height: "50px",
-          borderRadius: "50%",
-          backgroundColor: "oklch(62.7% 0.265 303.9)",
-        }}
-        animate={{
-          rotate: 360,
-          scale: [1, 1.5, 1], // pulsing effect
-        }}
-        transition={{
-          duration: 2,
-          ease: "easeInOut",
-          repeat: Infinity,
-        }}
+    <div className="fixed inset-0 flex items-center justify-center bg-white dark:bg-black z-[9999] transition-colors duration-500">
+      <AnimatedCircularProgressBar
+        value={progress}
+        gaugePrimaryColor="#3b82f6" // blue-500
+        gaugeSecondaryColor="#e5e7eb" // gray-200
       />
     </div>
   );
