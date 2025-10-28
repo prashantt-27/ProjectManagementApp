@@ -63,16 +63,16 @@ const ProjectPage = () => {
     <div
       className={`min-h-screen pb-12 transition-colors duration-300 ${
         darkMode
-          ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"
-          : "bg-gradient-to-br from-purple-50 via-white to-blue-50"
+          ? "bg-linear-to-br from-gray-900 via-gray-800 to-gray-900"
+          : "bg-linear-to-br from-purple-50 via-white to-blue-50"
       }`}
     >
       {/* Header Section */}
       <div
         className={`mt-16 py-8 px-4 sm:py-12 shadow-lg transition-colors duration-300 ${
           darkMode
-            ? "bg-gradient-to-r from-purple-900 to-blue-900 text-white"
-            : "bg-gradient-to-r from-purple-600 to-blue-600 text-white"
+            ? "bg-linear-to-r from-purple-900 to-blue-900 text-white"
+            : "bg-linear-to-r from-purple-600 to-blue-600 text-white"
         }`}
       >
         <div className="max-w-6xl mx-auto">
@@ -129,7 +129,7 @@ const ProjectPage = () => {
               }`}
             />
             <button
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition transform hover:scale-105 whitespace-nowrap"
+              className="bg-linear-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition transform hover:scale-105 whitespace-nowrap"
               onClick={handleAddProject}
             >
               Add Project
@@ -209,7 +209,7 @@ const ProjectPage = () => {
                             }`}
                           >
                             <div
-                              className="bg-gradient-to-r from-purple-600 to-blue-600 h-2.5 rounded-full transition-all duration-500"
+                              className="bg-linear-to-r from-purple-600 to-blue-600 h-2.5 rounded-full transition-all duration-500"
                               style={{ width: `${stats.progress}%` }}
                             ></div>
                           </div>
@@ -219,7 +219,7 @@ const ProjectPage = () => {
                         className={`${
                           isActive
                             ? "bg-gray-500 hover:bg-gray-600"
-                            : "bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
+                            : "bg-linear-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
                         } text-white font-medium px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition transform hover:scale-105 whitespace-nowrap`}
                         onClick={() =>
                           dispatch(setActiveIndex(isActive ? -1 : pIndex))
@@ -257,7 +257,7 @@ const ProjectPage = () => {
                             }`}
                           />
                           <button
-                            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition transform hover:scale-105 whitespace-nowrap"
+                            className="bg-linear-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition transform hover:scale-105 whitespace-nowrap"
                             onClick={() => handleAddTask(pIndex)}
                           >
                             Add Task

@@ -54,7 +54,7 @@ export function AnimatedCircularProgressBar({
           <circle
             cx="50"
             cy="50"
-            r="45"
+            r="30"
             strokeWidth="10"
             strokeDashoffset="0"
             strokeLinecap="round"
@@ -81,7 +81,7 @@ export function AnimatedCircularProgressBar({
         <circle
           cx="50"
           cy="50"
-          r="45"
+          r="30"
           strokeWidth="10"
           strokeDashoffset="0"
           strokeLinecap="round"

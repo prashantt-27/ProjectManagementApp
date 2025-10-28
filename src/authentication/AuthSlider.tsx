@@ -58,8 +58,8 @@ const AuthSlider: React.FC = () => {
           layout
           className={`md:w-1/2 p-10 flex flex-col justify-center items-center text-center ${
             darkMode
-              ? "bg-gradient-to-br from-purple-900 to-gray-800"
-              : "bg-gradient-to-br from-purple-500 to-pink-300"
+              ? "bg-linear-to-br from-purple-900 to-gray-800"
+              : "bg-linear-to-br from-purple-500 to-pink-300"
           }`}
         >
           <motion.h2

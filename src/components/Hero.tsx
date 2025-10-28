@@ -9,8 +9,8 @@ const Hero = () => {
     <section
       className={`relative overflow-hidden ${
         darkMode
-          ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 text-gray-200"
-          : "bg-gradient-to-br from-purple-600 via-purple-500 to-indigo-600 text-white"
+          ? "bg-linear-to-br from-gray-900 via-gray-800 to-gray-700 text-gray-200"
+          : "bg-linear-to-br from-purple-600 via-purple-500 to-indigo-600 text-white"
       }`}
     >
       {/* Animated Background Blobs */}
@@ -200,7 +200,7 @@ const Hero = () => {
             className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight"
           >
             Take Control of Your{" "}
-            <span className="block bg-gradient-to-r from-yellow-300 to-pink-300 bg-clip-text text-transparent">
+            <span className="block bg-linear-to-r from-yellow-300 to-pink-300 bg-clip-text text-transparent">
               Projects Effortlessly
             </span>
           </motion.h1>

@@ -225,7 +225,7 @@ const CompleteLandingPage = () => {
       </blockquote>
       <div className="flex items-center">
         <div
-          className={`w-10 h-10 rounded-full flex items-center justify-center font-bold mr-3 text-white bg-gradient-to-br ${
+          className={`w-10 h-10 rounded-full flex items-center justify-center font-bold mr-3 text-white bg-linear-to-br ${
             darkMode ? colorDark : colorLight
           }`}
         >
@@ -254,7 +254,7 @@ const CompleteLandingPage = () => {
       {/* Testimonials Section */}
       <section
         className={`py-20 ${
-          darkMode ? "bg-gray-800" : "bg-gradient-to-b from-gray-50 to-white"
+          darkMode ? "bg-gray-800" : "bg-linear-to-b from-gray-50 to-white"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6">
@@ -280,7 +280,7 @@ const CompleteLandingPage = () => {
               }`}
             >
               Loved by Teams{" "}
-              <span className="block bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+              <span className="block bg-linear-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
                 Around the World
               </span>
             </h2>
@@ -299,19 +299,19 @@ const CompleteLandingPage = () => {
               ))}
             </Marquee>
 
-            {/* Improved Gradient Edges */}
+            {/* Improved linear Edges */}
             <div
               className={`pointer-events-none absolute inset-y-0 left-0 w-1/4 ${
                 darkMode
-                  ? "bg-gradient-to-r from-gray-800"
-                  : "bg-gradient-to-r from-white"
+                  ? "bg-linear-to-r from-gray-800"
+                  : "bg-linear-to-r from-white"
               }`}
             ></div>
             <div
               className={`pointer-events-none absolute inset-y-0 right-0 w-1/4 ${
                 darkMode
-                  ? "bg-gradient-to-l from-gray-800"
-                  : "bg-gradient-to-l from-white"
+                  ? "bg-linear-to-l from-gray-800"
+                  : "bg-linear-to-l from-white"
               }`}
             ></div>
           </div>
@@ -321,7 +321,7 @@ const CompleteLandingPage = () => {
       {/* Pricing Section */}
       <section
         className={`py-20 ${
-          darkMode ? "bg-gray-900" : "bg-gradient-to-b from-white to-gray-50"
+          darkMode ? "bg-gray-900" : "bg-linear-to-b from-white to-gray-50"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 text-center">
@@ -335,7 +335,7 @@ const CompleteLandingPage = () => {
             viewport={{ once: true }}
           >
             Choose Your Perfect{" "}
-            <span className="bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
               Pricing Plan
             </span>
           </motion.h2>
@@ -352,7 +352,7 @@ const CompleteLandingPage = () => {
                 className={`rounded-2xl p-8 shadow-xl border-2 transition-all duration-500
                   ${
                     plan.popular
-                      ? "scale-105 border-purple-500 bg-gradient-to-br from-purple-600 to-indigo-600 text-white"
+                      ? "scale-105 border-purple-500 bg-linear-to-br from-purple-600 to-indigo-600 text-white"
                       : darkMode
                       ? "border-gray-700 hover:-translate-y-2 bg-gray-800 text-gray-100 hover:border-gray-600"
                       : "border-gray-200 hover:-translate-y-2 bg-white text-gray-900 hover:border-purple-300 hover:shadow-2xl"
@@ -383,7 +383,7 @@ const CompleteLandingPage = () => {
                   {plan.features.map((f, j) => (
                     <li key={j} className="flex items-start">
                       <svg
-                        className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0"
+                        className="w-5 h-5 text-green-500 mr-3 mt-0.5 shrink-0"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -416,8 +416,8 @@ const CompleteLandingPage = () => {
                     plan.popular
                       ? "bg-white text-purple-700 hover:bg-purple-50 shadow-lg"
                       : darkMode
-                      ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-500 hover:to-indigo-500"
-                      : "bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 shadow-md hover:shadow-lg"
+                      ? "bg-linear-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-500 hover:to-indigo-500"
+                      : "bg-linear-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 shadow-md hover:shadow-lg"
                   }`}
                 >
                   Get Started
@@ -431,7 +431,7 @@ const CompleteLandingPage = () => {
       {/* FAQ Section */}
       <section
         className={`py-20 ${
-          darkMode ? "bg-gray-800" : "bg-gradient-to-b from-gray-50 to-white"
+          darkMode ? "bg-gray-800" : "bg-linear-to-b from-gray-50 to-white"
         }`}
       >
         <div className="max-w-4xl mx-auto px-6">
@@ -445,7 +445,7 @@ const CompleteLandingPage = () => {
             viewport={{ once: true }}
           >
             Frequently Asked{" "}
-            <span className="bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
               Questions
             </span>
           </motion.h2>
