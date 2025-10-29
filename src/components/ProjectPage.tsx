@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   addProject,
@@ -7,6 +7,8 @@ import {
   toggleTask,
   deleteTask,
   editTask,
+  deleteProject,
+  renameProject,
 } from "../redux/slices/projectSlice";
 import type { RootState } from "../redux/store";
 import toast from "react-hot-toast";
@@ -25,6 +27,27 @@ const ProjectPage = () => {
   const [newTask, setNewTask] = useState("");
   const [editTaskName, setEditTaskName] = useState("");
   const [editIndex, setEditIndex] = useState<number | null>(null);
+  const [renameIndex, setRenameIndex] = useState<number | null>(null);
+  const [renameName, setRenameName] = useState("");
+  const [menuOpenIndex, setMenuOpenIndex] = useState<number | null>(null);
+
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpenIndex(null);
+      }
+    };
+
+    if (menuOpenIndex !== null) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuOpenIndex]);
 
   const userProjects =
     projectList.find((user) => user.email === currentUser?.email)?.projects ||
@@ -161,25 +184,66 @@ const ProjectPage = () => {
               return (
                 <div
                   key={pIndex}
-                  className={`rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border ${
+                  className={`rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border ${
                     darkMode
                       ? "bg-gray-800 border-gray-700"
                       : "bg-white border-gray-100"
                   }`}
                 >
                   {/* Project Header */}
-                  <div className="p-4 sm:p-6">
+                  <div className="p-4 sm:p-6 relative">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                       <div className="flex-1">
-                        <h2
-                          className={`text-xl sm:text-2xl font-bold mb-2 ${
-                            darkMode ? "text-gray-100" : "text-gray-800"
-                          }`}
-                        >
-                          {project.projectName}
-                        </h2>
+                        {renameIndex === pIndex ? (
+                          <div className="flex items-center gap-3 my-3">
+                            <input
+                              type="text"
+                              value={renameName}
+                              onChange={(e) => setRenameName(e.target.value)}
+                              className={`px-3 py-2 rounded-lg border-2 focus:outline-none focus:border-purple-500 w-full ${
+                                darkMode
+                                  ? "bg-gray-700 border-gray-600 text-gray-100"
+                                  : "bg-white border-gray-200 text-gray-900"
+                              }`}
+                            />
+                            <button
+                              className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium"
+                              onClick={() => {
+                                if (!currentUser) {
+                                  toast.error("Please log in first!");
+                                  return;
+                                }
+                                if (!renameName.trim()) return;
+                                dispatch(
+                                  renameProject({
+                                    email: currentUser?.email,
+                                    projectIndex: pIndex,
+                                    newName: renameName,
+                                  })
+                                );
+                                setRenameIndex(null);
+                              }}
+                            >
+                              💾
+                            </button>
+                            <button
+                              className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-lg font-medium"
+                              onClick={() => setRenameIndex(null)}
+                            >
+                              ❌
+                            </button>
+                          </div>
+                        ) : (
+                          <h2
+                            className={`text-xl sm:text-2xl font-bold mb-2 ${
+                              darkMode ? "text-gray-100" : "text-gray-800"
+                            }`}
+                          >
+                            {project.projectName}
+                          </h2>
+                        )}
                         <div
-                          className={`flex flex-wrap items-center gap-3 text-sm ${
+                          className={`flex ml-0 sm:ml-0.5 flex-wrap items-center gap-3 text-sm ${
                             darkMode ? "text-gray-300" : "text-gray-600"
                           }`}
                         >
@@ -215,18 +279,188 @@ const ProjectPage = () => {
                           </div>
                         )}
                       </div>
-                      <button
-                        className={`${
-                          isActive
-                            ? "bg-gray-500 hover:bg-gray-600"
-                            : "bg-linear-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
-                        } text-white font-medium px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition transform hover:scale-105 whitespace-nowrap`}
-                        onClick={() =>
-                          dispatch(setActiveIndex(isActive ? -1 : pIndex))
-                        }
-                      >
-                        {isActive ? "Hide Tasks ▲" : "View Tasks ▼"}
-                      </button>
+                      <div className="flex items-center justify-center gap-3">
+                        {/* Three-dot menu */}
+                        <div className="relative" ref={menuRef}>
+                          <button
+                            className={`transition-all duration-200 ${
+                              menuOpenIndex === pIndex
+                                ? darkMode
+                                  ? "bg-gray-700"
+                                  : "bg-gray-200"
+                                : darkMode
+                                ? "hover:bg-gray-700"
+                                : "hover:bg-gray-200"
+                            } ${
+                              // Mobile: Pill button with text, Desktop: Round button
+                              "flex items-center gap-1.5 px-4 py-2 rounded-full sm:rounded-full sm:p-2 sm:gap-0"
+                            }`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setMenuOpenIndex(
+                                menuOpenIndex === pIndex ? null : pIndex
+                              );
+                            }}
+                            aria-label="Project menu"
+                          >
+                            {/* Mobile: "Manage" text + gear emoji */}
+                            <span
+                              className={`sm:hidden flex items-center gap-1.5 text-sm font-medium ${
+                                darkMode ? "text-gray-200" : "text-gray-700"
+                              }`}
+                            >
+                              <span>Manage</span>
+                              <span className="text-base">⚙️</span>
+                            </span>
+
+                            {/* Desktop: Three dots */}
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className={`h-6 w-6 hidden sm:block ${
+                                darkMode ? "text-gray-200" : "text-gray-600"
+                              }`}
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                              />
+                            </svg>
+                          </button>
+
+                          {menuOpenIndex === pIndex && (
+                            <div
+                              className={`absolute left-1/2 -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0 mt-2 w-48 rounded-lg shadow-xl border py-1 z-50 ${
+                                darkMode
+                                  ? "bg-gray-800 border-gray-700"
+                                  : "bg-white border-gray-200"
+                              }`}
+                            >
+                              <button
+                                className={`w-full px-4 py-2 text-left flex items-center gap-2 transition-colors ${
+                                  darkMode
+                                    ? "hover:bg-gray-700 text-gray-200"
+                                    : "hover:bg-gray-100 text-gray-700"
+                                }`}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setRenameIndex(pIndex);
+                                  setRenameName(project.projectName);
+                                  setMenuOpenIndex(null);
+                                }}
+                              >
+                                <span>✏️</span>
+                                <span>Rename Project</span>
+                              </button>
+
+                              <button
+                                className={`w-full px-4 py-2 text-left flex items-center gap-2 transition-colors ${
+                                  darkMode
+                                    ? "hover:bg-gray-700 text-red-400"
+                                    : "hover:bg-gray-100 text-red-600"
+                                }`}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setMenuOpenIndex(null);
+                                  if (!currentUser) {
+                                    toast.error("Please log in first!");
+                                    return;
+                                  }
+
+                                  toast.custom(
+                                    (t) => (
+                                      <div
+                                        className={`max-w-md w-full shadow-lg rounded-lg p-4 sm:p-6 border transition-all transform ${
+                                          t.visible
+                                            ? "animate-enter"
+                                            : "animate-leave"
+                                        } ${
+                                          darkMode
+                                            ? "bg-gray-800 border-gray-700"
+                                            : "bg-white border-gray-200"
+                                        }`}
+                                      >
+                                        <div className="flex items-start gap-3">
+                                          <div className="text-2xl">🗑️</div>
+                                          <div className="flex-1">
+                                            <p
+                                              className={`font-semibold ${
+                                                darkMode
+                                                  ? "text-gray-100"
+                                                  : "text-gray-900"
+                                              }`}
+                                            >
+                                              Delete project "
+                                              {project.projectName}"?
+                                            </p>
+                                            <p
+                                              className={`text-sm mt-1 ${
+                                                darkMode
+                                                  ? "text-gray-400"
+                                                  : "text-gray-500"
+                                              }`}
+                                            >
+                                              This action cannot be undone.
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <div className="mt-4 flex flex-col sm:flex-row justify-end gap-2">
+                                          <button
+                                            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                                              darkMode
+                                                ? "bg-gray-700 hover:bg-gray-600 text-gray-200"
+                                                : "bg-gray-200 hover:bg-gray-300 text-gray-800"
+                                            }`}
+                                            onClick={() => toast.dismiss(t.id)}
+                                          >
+                                            Cancel
+                                          </button>
+                                          <button
+                                            className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-medium transition-colors"
+                                            onClick={() => {
+                                              dispatch(
+                                                deleteProject({
+                                                  email: currentUser?.email,
+                                                  projectIndex: pIndex,
+                                                })
+                                              );
+                                              toast.dismiss(t.id);
+                                              toast.success("Project deleted");
+                                            }}
+                                          >
+                                            Delete
+                                          </button>
+                                        </div>
+                                      </div>
+                                    ),
+                                    { duration: 8000 }
+                                  );
+                                }}
+                              >
+                                <span>🗑️</span>
+                                <span>Delete Project</span>
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                        {/* View/Hide Tasks Button */}
+                        <button
+                          className={`${
+                            isActive
+                              ? "bg-gray-500 hover:bg-gray-600"
+                              : "bg-linear-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
+                          } text-white font-medium px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition transform hover:scale-105 whitespace-nowrap`}
+                          onClick={() =>
+                            dispatch(setActiveIndex(isActive ? -1 : pIndex))
+                          }
+                        >
+                          {isActive ? "Hide Tasks ▲" : "View Tasks ▼"}
+                        </button>
+                      </div>
                     </div>
                   </div>
 

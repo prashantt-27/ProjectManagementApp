@@ -122,6 +122,39 @@ const projectSlice = createSlice({
         localStorage.setItem("projects", JSON.stringify(state.projectList));
       }
     },
+
+    // Delete a whole project for a user
+    deleteProject: (
+      state,
+      action: PayloadAction<{
+        email: string | null | undefined;
+        projectIndex: number;
+      }>
+    ) => {
+      const { email, projectIndex } = action.payload;
+      const userData = state.projectList.find((u) => u.email === email);
+      if (userData) {
+        userData.projects.splice(projectIndex, 1);
+        localStorage.setItem("projects", JSON.stringify(state.projectList));
+      }
+    },
+
+    // Rename a project
+    renameProject: (
+      state,
+      action: PayloadAction<{
+        email: string | null | undefined;
+        projectIndex: number;
+        newName: string;
+      }>
+    ) => {
+      const { email, projectIndex, newName } = action.payload;
+      const userData = state.projectList.find((u) => u.email === email);
+      if (userData) {
+        userData.projects[projectIndex].projectName = newName;
+        localStorage.setItem("projects", JSON.stringify(state.projectList));
+      }
+    },
   },
 });
 
@@ -132,5 +165,7 @@ export const {
   toggleTask,
   editTask,
   addTask,
+  deleteProject,
+  renameProject,
 } = projectSlice.actions;
 export default projectSlice.reducer;
