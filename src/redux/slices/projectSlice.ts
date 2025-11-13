@@ -133,10 +133,18 @@ const projectSlice = createSlice({
     ) => {
       const { email, projectIndex } = action.payload;
       const userData = state.projectList.find((u) => u.email === email);
-      if (userData) {
-        userData.projects.splice(projectIndex, 1);
-        localStorage.setItem("projects", JSON.stringify(state.projectList));
+      if (!userData) return;
+      if (projectIndex < 0 || projectIndex >= userData.projects.length) return;
+      userData.projects.splice(projectIndex, 1);
+      if (state.activeIndex === projectIndex) {
+        state.activeIndex = null;
+      } else if (
+        state.activeIndex !== null &&
+        state.activeIndex > projectIndex
+      ) {
+        state.activeIndex = state.activeIndex - 1;
       }
+      localStorage.setItem("projects", JSON.stringify(state.projectList));
     },
 
     // Rename a project

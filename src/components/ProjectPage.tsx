@@ -31,11 +31,11 @@ const ProjectPage = () => {
   const [renameName, setRenameName] = useState("");
   const [menuOpenIndex, setMenuOpenIndex] = useState<number | null>(null);
 
-  const menuRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      // Check if click is outside any menu
+      const target = event.target as HTMLElement;
+      if (!target.closest(".menu-container")) {
         setMenuOpenIndex(null);
       }
     };
@@ -73,6 +73,41 @@ const ProjectPage = () => {
       addTask({ email: currentUser.email, projectIndex: pIndex, task: newTask })
     );
     setNewTask("");
+  };
+
+  const handleDeleteProject = (pIndex: number, projectName: string) => {
+    if (!currentUser) {
+      toast.error("Please log in first!");
+      return;
+    }
+
+    const ok = window.confirm(
+      `Delete project "${projectName}"? This action cannot be undone.`
+    );
+
+    if (ok) {
+      // Close the menu
+      setMenuOpenIndex(null);
+
+      // If the deleted project is currently active, reset activeIndex
+      if (activeIndex === pIndex) {
+        dispatch(setActiveIndex(null));
+      }
+      // If the deleted project is before the active one, adjust activeIndex
+      else if (activeIndex !== null && pIndex < activeIndex) {
+        dispatch(setActiveIndex(activeIndex - 1));
+      }
+
+      // Delete the project
+      dispatch(
+        deleteProject({
+          email: currentUser.email,
+          projectIndex: pIndex,
+        })
+      );
+
+      toast.success("Project deleted");
+    }
   };
 
   const getProjectStats = (project: any) => {
@@ -183,7 +218,7 @@ const ProjectPage = () => {
 
               return (
                 <div
-                  key={pIndex}
+                  key={project.projectName}
                   className={`rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border ${
                     darkMode
                       ? "bg-gray-800 border-gray-700"
@@ -281,7 +316,7 @@ const ProjectPage = () => {
                       </div>
                       <div className="flex items-center justify-center gap-3">
                         {/* Three-dot menu */}
-                        <div className="relative" ref={menuRef}>
+                        <div className="relative menu-container">
                           <button
                             className={`transition-all duration-200 ${
                               menuOpenIndex === pIndex
@@ -365,79 +400,9 @@ const ProjectPage = () => {
                                 }`}
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  setMenuOpenIndex(null);
-                                  if (!currentUser) {
-                                    toast.error("Please log in first!");
-                                    return;
-                                  }
-
-                                  toast.custom(
-                                    (t) => (
-                                      <div
-                                        className={`max-w-md w-full shadow-lg rounded-lg p-4 sm:p-6 border transition-all transform ${
-                                          t.visible
-                                            ? "animate-enter"
-                                            : "animate-leave"
-                                        } ${
-                                          darkMode
-                                            ? "bg-gray-800 border-gray-700"
-                                            : "bg-white border-gray-200"
-                                        }`}
-                                      >
-                                        <div className="flex items-start gap-3">
-                                          <div className="text-2xl">🗑️</div>
-                                          <div className="flex-1">
-                                            <p
-                                              className={`font-semibold ${
-                                                darkMode
-                                                  ? "text-gray-100"
-                                                  : "text-gray-900"
-                                              }`}
-                                            >
-                                              Delete project "
-                                              {project.projectName}"?
-                                            </p>
-                                            <p
-                                              className={`text-sm mt-1 ${
-                                                darkMode
-                                                  ? "text-gray-400"
-                                                  : "text-gray-500"
-                                              }`}
-                                            >
-                                              This action cannot be undone.
-                                            </p>
-                                          </div>
-                                        </div>
-                                        <div className="mt-4 flex flex-col sm:flex-row justify-end gap-2">
-                                          <button
-                                            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                                              darkMode
-                                                ? "bg-gray-700 hover:bg-gray-600 text-gray-200"
-                                                : "bg-gray-200 hover:bg-gray-300 text-gray-800"
-                                            }`}
-                                            onClick={() => toast.dismiss(t.id)}
-                                          >
-                                            Cancel
-                                          </button>
-                                          <button
-                                            className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-medium transition-colors"
-                                            onClick={() => {
-                                              dispatch(
-                                                deleteProject({
-                                                  email: currentUser?.email,
-                                                  projectIndex: pIndex,
-                                                })
-                                              );
-                                              toast.dismiss(t.id);
-                                              toast.success("Project deleted");
-                                            }}
-                                          >
-                                            Delete
-                                          </button>
-                                        </div>
-                                      </div>
-                                    ),
-                                    { duration: 8000 }
+                                  handleDeleteProject(
+                                    pIndex,
+                                    project.projectName
                                   );
                                 }}
                               >
@@ -454,9 +419,9 @@ const ProjectPage = () => {
                               ? "bg-gray-500 hover:bg-gray-600"
                               : "bg-linear-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
                           } text-white font-medium px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition transform hover:scale-105 whitespace-nowrap`}
-                          onClick={() =>
-                            dispatch(setActiveIndex(isActive ? -1 : pIndex))
-                          }
+                          onClick={() => {
+                            dispatch(setActiveIndex(pIndex));
+                          }}
                         >
                           {isActive ? "Hide Tasks ▲" : "View Tasks ▼"}
                         </button>
@@ -597,15 +562,15 @@ const ProjectPage = () => {
                                     </button>
                                     <button
                                       className="flex-1 sm:flex-none bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition"
-                                      onClick={() =>
+                                      onClick={() => {
                                         dispatch(
                                           deleteTask({
                                             email: currentUser?.email,
                                             projectIndex: pIndex,
                                             taskIndex: tIndex,
                                           })
-                                        )
-                                      }
+                                        );
+                                      }}
                                     >
                                       🗑️ Delete
                                     </button>
